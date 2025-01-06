@@ -6,7 +6,7 @@
 
 <main>
   <div class="flex justify-center text-center">
-    <!-- <TeamDataCard /> -->
+    <TeamDataCard />
     <PlayerDataCard />
   </div>
   <p>Mitä vittua nyt taas?</p>

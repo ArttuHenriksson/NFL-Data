@@ -21,6 +21,7 @@
   <ul>
     {#each teams as team}
       <li class="text-blue-200 text-center">{team.name}</li>
+      <li>{team.location}</li>
     {/each}
   </ul>
 </main>
