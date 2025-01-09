@@ -1,12 +1,10 @@
 <script lang="ts">
-  import TeamDataCard from './components/dataCards/TeamDataCard.svelte';
+  import { Router, Link, Route } from 'svelte-routing';
+
   import './app.css';
   import PlayerDataCard from './components/dataCards/PlayerDataCard.svelte';
 </script>
 
 <main>
-  <div class="flex justify-center text-center">
-    <!-- <TeamDataCard /> -->
-    <PlayerDataCard />
-  </div>
+  <PlayerDataCard />
 </main>

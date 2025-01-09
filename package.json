@@ -19,12 +19,14 @@
     "postcss": "^8.4.49",
     "svelte": "^5.15.0",
     "svelte-check": "^4.1.1",
+    "svelte-loading-spinners": "^0.3.6",
     "tailwindcss": "^3.4.17",
     "typescript": "~5.6.2",
     "vite": "^6.0.5"
   },
   "dependencies": {
     "@balldontlie/sdk": "^1.2.2",
+    "lucide-svelte": "^0.469.0",
     "svelte-routing": "^2.13.0"
   }
 }

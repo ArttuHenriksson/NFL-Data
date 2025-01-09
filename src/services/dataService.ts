@@ -15,9 +15,13 @@ export async function getTeams(): Promise<{ data: Team[] }> {
   }
 }
 
-export async function getPlayers(): Promise<{ data: Player[] }> {
+export async function getPlayers(
+  perPage: number = 15
+): Promise<{ data: Player[] }> {
   try {
-    const { data: players } = await balldontlieAPI.nfl.getPlayers();
+    const { data: players } = await balldontlieAPI.nfl.getPlayers({
+      per_page: perPage,
+    });
     return { data: players };
   } catch (error) {
     console.error(error);
