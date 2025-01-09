@@ -33,9 +33,7 @@
         <div
           class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition-transform duration-200"
         >
-          <div
-            class="bg-gradient-to-r from-blue-600 to-blue-800 p-4 text-white"
-          >
+          <div class="bg-gradient-to-r from-red-500 to-blue-600 p-4 text-white">
             <div class="flex justify-center mb-3"></div>
             <h3 class="text-xl font-bold text-center mb-1">
               {player.first_name}
