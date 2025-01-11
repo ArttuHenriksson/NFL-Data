@@ -13,4 +13,6 @@ export interface Player {
   experience: string;
   age: number;
   team: Team;
+  meta?: any;
+  next_cursor?: number;
 }

@@ -5,6 +5,6 @@
   import PlayerDataCard from './components/dataCards/PlayerDataCard.svelte';
 </script>
 
-<main>
+<main class="bg-gray-500 min-h-screen">
   <PlayerDataCard />
 </main>
