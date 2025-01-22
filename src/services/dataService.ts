@@ -16,7 +16,7 @@ export async function getTeams(): Promise<{ data: Team[] }> {
 }
 
 export async function getPlayers(
-  perPage: number = 15
+  perPage: number = 16
 ): Promise<{ data: Player[] }> {
   try {
     const { data: players } = await balldontlieAPI.nfl.getPlayers({
