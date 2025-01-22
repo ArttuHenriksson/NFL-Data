@@ -14,7 +14,7 @@
 
   onMount(async () => {
     try {
-      const { data: playersData } = await getPlayers();
+      const { data: playersData } = await getPlayers(16, 1);
       players = playersData;
     } catch (error) {
       console.error(error);
