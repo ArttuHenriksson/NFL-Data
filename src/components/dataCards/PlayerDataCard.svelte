@@ -2,19 +2,15 @@
   import { onMount } from 'svelte';
   import type { Player } from '../../types/players';
   import { getPlayers } from '../../services/dataService';
-  import { BarLoader } from 'svelte-loading-spinners';
+  import { RingLoader } from 'svelte-loading-spinners';
+  import { User } from 'lucide-svelte';
+
   let players: Player[] = [];
   let isLoading = true;
 
-  // Function to get the team logo path
-  const getLogo = (teamName: string): string => {
-    const logoName = teamName.split(' ').pop(); // Extract the last word (e.g., "Rams")
-    return `/logos/${logoName}.png`;
-  };
-
   onMount(async () => {
     try {
-      const { data: playersData } = await getPlayers(16, 1);
+      const { data: playersData } = await getPlayers(2, 0);
       players = playersData;
     } catch (error) {
       console.error(error);
@@ -26,67 +22,71 @@
   });
 </script>
 
-<main
-  class="bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 text-gray-200 min-h-screen p-8"
->
+<main>
   {#if isLoading}
     <div class="flex justify-center items-center h-screen">
-      <BarLoader size={120} color="#FFFFFF" />
+      <RingLoader color="blue" size="100" />
     </div>
   {:else}
-    <div
-      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
-    >
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
       {#each players as player}
         <div
-          class="bg-gray-800 shadow-lg rounded-xl overflow-hidden transition-transform transform hover:scale-105"
+          class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition-transform duration-200"
         >
-          <!-- Header with Logo -->
-          <div
-            class="flex items-center gap-4 p-6 bg-gradient-to-r from-gray-700 to-gray-800"
-          >
-            <img
-              src={getLogo(player.team.full_name)}
-              alt="{player.team.full_name} logo"
-              class="w-16 h-16 rounded-full object-contain bg-gray-700 p-1"
-            />
-            <div>
-              <h2 class="text-xl font-semibold text-white leading-tight">
-                {player.first_name}
-                {player.last_name}
-              </h2>
-              <p class="text-sm text-gray-400">{player.team.full_name}</p>
+          <div class="bg-gradient-to-r from-red-500 to-blue-600 p-4 text-white">
+            <div class="flex justify-center mb-3"></div>
+            <h3 class="text-xl font-bold text-center mb-1">
+              {player.first_name}
+              {player.last_name}
+            </h3>
+            <p class="text-center text-blue-100">{player.position}</p>
+          </div>
+
+          <div class="p-4">
+            <div class="grid grid-cols-2 gap-4 mb-4">
+              <div class="text-center">
+                <p class="text-sm text-gray-500">College</p>
+                <p class="font-semibold text-gray-800">{player.college}</p>
+              </div>
+              <div class="text-center">
+                <p class="text-sm text-gray-500">Experience</p>
+                <p class="font-semibold text-gray-800">{player.experience}</p>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 mb-4">
+              <div class="text-center">
+                <p class="text-sm text-gray-500">Height</p>
+                <p class="font-semibold text-gray-800">
+                  {player.height || '6\'2"'}
+                </p>
+              </div>
+              <div class="text-center">
+                <p class="text-sm text-gray-500">Weight</p>
+                <p class="font-semibold text-gray-800">
+                  {player.weight || '215 lbs'}
+                </p>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div class="text-center">
+                <p class="text-sm text-gray-500">Age</p>
+                <p class="font-semibold text-gray-800">{player.age || '27'}</p>
+              </div>
+              <div class="text-center">
+                <p class="text-sm text-gray-500">Jersey</p>
+                <p class="font-semibold text-gray-800">
+                  #{player.jersey_number || '84'}
+                </p>
+              </div>
             </div>
           </div>
 
-          <!-- Player Stats -->
-          <div class="grid grid-cols-2 gap-4 p-6 bg-gray-900">
-            <div class="bg-gray-700 rounded-md p-4">
-              <p class="text-xs text-gray-400">Position</p>
-              <p class="text-sm font-semibold">{player.position}</p>
-            </div>
-            <div class="bg-gray-700 rounded-md p-4">
-              <p class="text-xs text-gray-400">Number</p>
-              <p class="text-sm font-semibold">
-                #{player.jersey_number || '--'}
-              </p>
-            </div>
-            <div class="bg-gray-700 rounded-md p-4">
-              <p class="text-xs text-gray-400">Height</p>
-              <p class="text-sm font-semibold">{player.height || '6\'2"'}</p>
-            </div>
-            <div class="bg-gray-700 rounded-md p-4">
-              <p class="text-xs text-gray-400">Weight</p>
-              <p class="text-sm font-semibold">{player.weight || '215 lbs'}</p>
-            </div>
-            <div class="bg-gray-700 rounded-md p-4">
-              <p class="text-xs text-gray-400">Experience</p>
-              <p class="text-sm font-semibold">{player.experience} years</p>
-            </div>
-            <div class="bg-gray-700 rounded-md p-4">
-              <p class="text-xs text-gray-400">Age</p>
-              <p class="text-sm font-semibold">{player.age || '--'}</p>
-            </div>
+          <div class="bg-gray-50 px-4 py-3 border-t">
+            <p class="text-center text-sm text-gray-600">
+              {player.team.full_name}
+            </p>
           </div>
         </div>
       {/each}
