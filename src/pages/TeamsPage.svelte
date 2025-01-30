@@ -4,7 +4,7 @@
 </script>
 
 <main>
-  <div class="flex justify-center text-center">
+  <div class="flex justify-center text-center bg-gray-900">
     <TeamDataCard />
   </div>
 </main>

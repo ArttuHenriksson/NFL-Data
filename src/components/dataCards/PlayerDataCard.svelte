@@ -3,19 +3,24 @@
   import type { Player } from '../../types/players';
   import { getPlayers } from '../../services/dataService';
   import { BarLoader } from 'svelte-loading-spinners';
+  import Pagination from '../ui/Pagination.svelte';
   let players: Player[] = [];
   let isLoading = true;
+  let currentPage = 1;
+  let totalPages = 1;
+  const perPage = 16;
 
-  // Function to get the team logo path
   const getLogo = (teamName: string): string => {
-    const logoName = teamName.split(' ').pop(); // Extract the last word (e.g., "Rams")
+    const logoName = teamName.split(' ').pop();
     return `/logos/${logoName}.png`;
   };
 
-  onMount(async () => {
+  const loadPlayers = async (page: number) => {
     try {
-      const { data: playersData } = await getPlayers(2, 2);
-      players = playersData;
+      const { data, meta } = await getPlayers(perPage, (page - 1) * perPage);
+      players = data;
+      totalPages = Math.ceil((meta?.next_cursor ?? 0) / perPage);
+      currentPage = page;
     } catch (error) {
       console.error(error);
     } finally {
@@ -23,23 +28,31 @@
         isLoading = false;
       }, 1500);
     }
+  };
+
+  onMount(() => {
+    loadPlayers(currentPage);
   });
+
+  const handlePageChange = (page: number) => {
+    currentPage = page;
+    loadPlayers(page);
+    console.log('Page changed to:', page);
+  };
 </script>
 
-<main
-  class="bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 text-gray-200 min-h-screen p-8"
->
+<main>
   {#if isLoading}
     <div class="flex justify-center items-center h-screen">
       <BarLoader size={120} color="#FFFFFF" />
     </div>
   {:else}
     <div
-      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 items-stretch"
     >
       {#each players as player}
         <div
-          class="bg-gray-800 shadow-lg rounded-xl overflow-hidden transition-transform transform hover:scale-105"
+          class="bg-gray-800 shadow-lg rounded-xl overflow-hidden transition-transform transform hover:scale-105 h-full flex flex-col justify-between"
         >
           <!-- Header with Logo -->
           <div
@@ -48,7 +61,7 @@
             <img
               src={getLogo(player.team.full_name)}
               alt="{player.team.full_name} logo"
-              class="w-16 h-16 rounded-full object-contain bg-gray-700 p-1"
+              class="w-20 h-20 rounded-full object-contain bg-gray-700 p-1"
             />
             <div>
               <h2 class="text-xl font-semibold text-white leading-tight">
@@ -73,7 +86,7 @@
             </div>
             <div class="bg-gray-700 rounded-md p-4">
               <p class="text-xs text-gray-400">Height</p>
-              <p class="text-sm font-semibold">{player.height || '6\'2"'}</p>
+              <p class="text-sm font-semibold">{player.height || "6'2"}</p>
             </div>
             <div class="bg-gray-700 rounded-md p-4">
               <p class="text-xs text-gray-400">Weight</p>
@@ -85,7 +98,7 @@
             </div>
             <div class="bg-gray-700 rounded-md p-4">
               <p class="text-xs text-gray-400">Age</p>
-              <p class="text-sm font-semibold">{player.age || '--'}</p>
+              <p class="text-sm font-semibold">{player.age || 'unknown'}</p>
             </div>
           </div>
         </div>

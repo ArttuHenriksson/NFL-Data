@@ -1,12 +1,15 @@
 <script lang="ts">
   import { Router, Link, Route } from 'svelte-routing';
-
+  import TeamsPage from './pages/TeamsPage.svelte';
+  import PlayersPage from './pages/PlayersPage.svelte';
   import './app.css';
-  import PlayerDataCard from './components/dataCards/PlayerDataCard.svelte';
-  import TeamDataCard from './components/dataCards/TeamDataCard.svelte';
+  import Navigation from './components/ui/Navigation.svelte';
 </script>
 
-<main class="bg-gray-500 min-h-screen">
-  <PlayerDataCard />
-  <!-- <TeamDataCard /> -->
+<main>
+  <Router>
+    <Navigation />
+    <Route path="/teams" component={TeamsPage} />
+    <Route path="/players" component={PlayersPage} />
+  </Router>
 </main>
